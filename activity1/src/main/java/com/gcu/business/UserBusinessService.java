@@ -57,9 +57,9 @@ public class UserBusinessService implements UserBusinessServiceInterface, UserDe
 	}
 
 	@Override
-	public boolean updateUser(UserEntity userEntity)
+	public boolean updateUser(UserEntity userEntity, UserEntity updatedUser)
 	{
-		return userService.update(userEntity);
+		return userService.update(userEntity, updatedUser);
 	}
 
 	@Override

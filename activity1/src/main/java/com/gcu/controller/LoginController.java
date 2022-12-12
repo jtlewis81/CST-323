@@ -10,16 +10,11 @@ import com.gcu.data.entity.UserEntity;
 import com.gcu.model.UserModel;
 
 @Controller
-public class LoginController {	
-	 @Autowired
-	 private UserBusinessService userService;
-	
-	/**
-	* Display Login page
-	* 
-	* @param model
-	* @return
-	*/
+public class LoginController
+{	
+	@Autowired
+	private UserBusinessService userService;
+
 	@GetMapping("/")
 	public String displayLogin(Model model)	
 	{
@@ -27,12 +22,6 @@ public class LoginController {
 		return "login";
 	}
 
-	/**
-	 * takes the user to the registration form
-	 * 
-	 * @param model
-	 * @return
-	 */
 	@GetMapping("/registration")
 	public String newUser(Model model)
 	{
@@ -41,15 +30,12 @@ public class LoginController {
 	    return "registration";
 	} 
 
-	/**
-	* return the home view
-	*/
     @GetMapping("/home")
     public String display(Model model, Principal principal) 
     {   
     	UserEntity user = userService.getUserByUsername(principal.getName());
         model.addAttribute("pageName", "Home");
-        model.addAttribute("username", user.getUsername());
+        model.addAttribute("username", principal.getName());
         model.addAttribute("userEntity", user);
         
         return "home";

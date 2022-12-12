@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import com.gcu.business.UserBusinessService;
 import com.gcu.data.entity.UserEntity;
 
@@ -16,15 +15,9 @@ import com.gcu.data.entity.UserEntity;
 @RequestMapping("/registration")
 public class RegistrationController 
 {
-	 @Autowired
-	 private UserBusinessService userService;
+	@Autowired
+	private UserBusinessService userService;
     
-	/**
-	 * Display Registration page
-	 * 
-	 * @param model
-	 * @return
-	 */
     @GetMapping("/")
     public String displayRegistration(Model model) 
     {     
@@ -34,36 +27,26 @@ public class RegistrationController
         return "registration";
     }
     
-    /**
-     * performs a submission of new user
-     * 
-     * @return
-     */
     @PostMapping("/submitRegistration")
-    public ModelAndView submitRegistration(@Valid UserEntity userEntity, BindingResult bindingResult, Model model) 
-    {      
-        ModelAndView mv = new ModelAndView(); 
-        
-        // Check if Username already exists.
+    public String submitRegistration(@Valid UserEntity userEntity, BindingResult bindingResult, Model model) 
+    {
         boolean existingUserError = false;
         if (userService.getUserByUsername(userEntity.getUsername()) != null)
         {
         	existingUserError = true;
         }
         
-        // if registration submitted fields or 'username already exists' error occurs
         if (bindingResult.hasErrors() || existingUserError) 
         {
-        	// notify user username already exists 
         	if (existingUserError)
-        		mv.addObject("existingUserError", "Username already exists!"); 
+        	{
+        		model.addAttribute("existingUserError", "Username already exists!"); 
+        	}
         	
-            mv.addObject("pageName", "New User Registration");
-            mv.setViewName("registration");   
-            return mv;
+        	model.addAttribute("pageName", "New User Registration"); 
+            return "registration";
         }
 
-        // Add new User to list of valid login credentials. 
         try
         {
         	userService.addUser(userEntity);
@@ -73,8 +56,7 @@ public class RegistrationController
         	e.printStackTrace();
         }
         
-        mv.addObject("pageName", "Login");
-        mv.setViewName("redirect:/");
-        return mv;
+        model.addAttribute("pageName", "Login");
+        return "redirect:/";
     }
 }

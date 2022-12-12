@@ -9,6 +9,6 @@ public interface UserDataAccessInterface
 	public String getUsernameByUserId(int userId);
 	public List<UserEntity> getAllUsers();
 	public boolean add(UserEntity userEntity);
-	public boolean update(UserEntity userEntity);
+	boolean update(UserEntity userEntity, UserEntity updatedUser);
 	public boolean delete(UserEntity userEntity);
 }

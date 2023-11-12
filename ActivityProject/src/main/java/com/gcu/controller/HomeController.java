@@ -15,7 +15,7 @@ import com.gcu.data.entity.UserEntity;
 @Controller
 @RequestMapping("/home")
 public class HomeController 
-{
+{	
     @Autowired
     private UserBusinessService userService;
     
@@ -85,6 +85,5 @@ public class HomeController
         }
         
         return "redirect:/logout";
-    }
-    
+    }    
 }
